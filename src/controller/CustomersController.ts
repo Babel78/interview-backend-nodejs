@@ -3,16 +3,22 @@ import { CustomersService } from '../service/CustomersService';
 import { Customer } from '../domain/Customer';
 
 export class CustomersController {
-  constructor(private service: CustomersService) {}
+  constructor(private service: CustomersService) { }
 
   async findByFilter(event: APIGatewayProxyEvent) {
-    if (!event.queryStringParameters?.name) {
+    if (
+      !event.queryStringParameters?.name &&
+      !event.queryStringParameters?.lastname &&
+      !event.queryStringParameters?.gender
+    ) {
       return this.apiResponseBadRequestError();
     }
-    const { name } = event.queryStringParameters;
+    const { name, lastname, gender } = event.queryStringParameters;
 
     return this.apiResponseOk(
-      await this.service.findByFilter(new Customer({ name }))
+      await this.service.findByFilter(
+        new Customer({ name, lastName: lastname, gender })
+      )
     );
   }
 

@@ -3,7 +3,7 @@ import { CustomersRepository } from '../repository/CustomersRepository';
 import { Customer } from '../domain/Customer';
 
 export class CustomersServiceImpl implements CustomersService {
-  constructor(private repository: CustomersRepository) {}
+  constructor(private repository: CustomersRepository) { }
 
   async findByFilter(customer: Customer): Promise<Customer[]> {
     return (await this.repository.findByFilter(customer)).map(
